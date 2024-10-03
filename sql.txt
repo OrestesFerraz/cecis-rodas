@@ -1,0 +1,58 @@
+--cria tabela
+CREATE TABLE marcas (
+	codigom INT,
+	nomem VARCHAR (20),
+	paisorigem VARCHAR (30),
+	CONSTRAINT pk_marcas PRIMARY KEY (codigom)
+);
+--insere valores
+INSERT INTO marcas VALUES 
+	(1012, 'Volkswagen', 'Brasil'),
+	(1013, 'Audi', 'Alemanha'),
+	(1014, 'Fiat', 'Brasil'),
+	(1015, 'Chevrolet', 'Brasil'),
+	(1016, 'Chevrolet', 'USA');
+	
+--DELETE FROM marcas;
+	
+SELECT * FROM marcas;
+--cria tabela
+CREATE TABLE modelo (
+	codigomo INT,
+	nomemo VARCHAR (20),
+	tipomo VARCHAR (5),
+	cormo VARCHAR (20),
+	codigom INT,
+	
+	CONSTRAINT pk_modelo PRIMARY KEY (codigomo),
+	--chave estrangeira	
+	CONSTRAINT fk_marca FOREIGN KEY(codigom) REFERENCES marcas(codigom)
+);
+
+INSERT INTO modelo VALUES 
+	(101, 'Gol', 'GT', 'cinza', 1012),
+	(102, 'Palio', 'XS', 'preto', 1013),
+	(103, 'Zafira', 'GLS', 'verde', 1015),
+	(104, 'Linea', 'GL', 'cinza', 1013),
+	(105, 'A2', 'GT', 'preto', 1014),
+	(106, 'Polo', 'GL', 'cinza', 1012),
+	(107, 'Taurus', 'XLS', 'preto', 1016);
+	
+SELECT * FROM modelo;
+
+-- selecao especifica
+--qual a cor do zafira?
+SELECT modelo.cormo, modelo.nomemo
+		FROM modelo INNER JOIN marcas ON marcas.codigom = modelo.codigom
+		WHERE modelo.nomemo = 'Zafira';
+--selecao especifica
+--qual o pais de origem do Taurus?
+SELECT marcas.paisorigem, modelo.nomemo
+		FROM modelo INNER JOIN marcas ON marcas.codigom = modelo.codigom
+		WHERE modelo.nomemo = 'Taurus';
+--selecao especifica
+--qual o nome dos modelos dos carros produzidos no Brasil?
+SELECT modelo.nomemo, marcas.paisorigem
+		FROM modelo INNER JOIN marcas ON modelo.codigom = modelo.codigom
+		WHERE marcas.paisorigem = 'Brasil';
+
